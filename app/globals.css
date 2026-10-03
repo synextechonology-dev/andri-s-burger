@@ -1171,7 +1171,7 @@ button {
 }
 .ticket__item-linha {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 10px;
   align-items: baseline;
 }
@@ -1856,10 +1856,6 @@ button {
   font-weight: 700;
   font-size: 0.92rem;
 }
-.extras__nota {
-  font-weight: 400;
-  color: rgba(13, 13, 13, 0.65);
-}
 .extras__lista {
   display: flex;
   flex-wrap: wrap;
@@ -1890,7 +1886,81 @@ button {
 .extra.is-marcado .extra__preco {
   color: var(--queijo);
 }
-.extras__sem {
+
+/* Lanche na comanda: número quando há mais de um, resumo e "Adicionais ou ajuste" */
+.ticket__ordem {
+  margin-left: 8px;
+  padding: 1px 8px 0;
+  border-radius: var(--raio-pilula);
+  background: rgba(13, 13, 13, 0.1);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  vertical-align: 3px;
+}
+.ticket__resumo {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--marrom);
+}
+.ticket__resumo-obs {
+  font-weight: 600;
+  font-style: italic;
+}
+.ticket__item-acoes {
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+.ticket__item-linha:has(.ticket__tirar) {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+}
+.ticket__tirar {
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--preto);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--preto);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+.ticket__tirar:hover {
+  background: var(--preto);
+  color: var(--amarelo);
+}
+.ajustar {
+  min-height: 38px;
+  padding: 4px 12px 2px;
+  border: 2px solid var(--preto);
+  border-radius: var(--raio-pilula);
+  background: var(--preto);
+  color: var(--amarelo);
+  font-family: var(--fonte-titulo);
+  font-size: 1rem;
+  letter-spacing: 0.03em;
+}
+.ajustar.is-aberto {
+  background: var(--amarelo);
+  color: var(--preto);
+}
+.ajustes {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(13, 13, 13, 0.06);
+}
+.ajustes .extras {
+  margin-top: 0;
+}
+.ajustes__rotulo {
+  display: block;
+  margin-top: 14px;
+}
+.ajustes .ticket__obs {
   margin-top: 6px;
 }
 

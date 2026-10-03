@@ -78,9 +78,11 @@ Do manual: "como no balcão: próximo, animado e curto. Pode ter gíria, mas nã
 ## Comanda
 
 - Salva no localStorage (`andris-comanda-v2`) como `{ alteradoEm, linhas }`. Se ficar mais de `EXPIRA_EM_HORAS` (1 h) sem alteração, a próxima visita começa vazia. Formato antigo (array puro, chave `-v1`) é descartado.
-- Cada linha é lanche + adicionais (`chave` = id + adicionais em ordem alfabética). Marcar um adicional muda a chave; se já existir outra linha igual, elas se juntam.
-- "Adicionar" no cardápio põe o lanche na linha sem adicionais, com 1 toque. Os adicionais só se escolhem na comanda. "Mais um sem adicionais" cria/incrementa a linha simples do mesmo lanche.
-- Adicionais valem só para clássicos e especiais (`aceitaAdicionais`). Valor da linha = (lanche + adicionais) × quantidade (`valorLinha` em `lib/pedido.js`).
+- **Lanche (clássicos e especiais): uma linha por lanche** (`qtd` sempre 1), cada um com seus adicionais e sua observação. Os adicionais ficam recolhidos em "+ Adicionais ou ajuste"; fechado, aparece um resumo ("+ Bacon, Ovo" e a observação). "Mais um igual" duplica o lanche logo abaixo; "×" tira.
+- **Porções e bebidas:** uma linha por item, com quantidade (− 2 +).
+- "Adicionar" no cardápio é 1 toque e não abre nada: lanche vira linha nova. O "−" do cardápio tira primeiro um lanche sem adicional e sem observação, para não apagar o que a pessoa personalizou.
+- Mensagem do WhatsApp: lanches idênticos (mesmos adicionais e mesma observação) são agrupados em "Nx" (`agrupaLinhas` em `lib/pedido.js`). Valor = (lanche + adicionais) × quantidade (`valorLinha`).
+- Adicionais valem só para clássicos e especiais (`aceitaAdicionais`).
 - Depois de enviar o pedido, fechar o painel limpa a comanda.
 
 ## Regras

@@ -1,11 +1,16 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { adicionalPorId, itemPorId } from "@/data/cardapio";
+import { aceitaAdicionais, adicionalPorId, itemPorId } from "@/data/cardapio";
 
 // Estado da comanda (carrinho). Fica salvo no navegador da pessoa
 // para não perder o pedido se ela recarregar a página.
-// Formato salvo: { alteradoEm: <ms>, linhas: [{ chave, id, adicionais, qtd, obs }] }
+// Formato salvo: { alteradoEm: <ms>, linhas: [{ uid, id, qtd, adicionais, obs }] }
+//
+// Como as linhas funcionam:
+// - Lanche (clássicos e especiais): cada lanche é uma linha própria (qtd sempre 1),
+//   com seus adicionais e sua observação. Assim dá pra pedir "um com bacon, um sem tomate".
+// - Porções e bebidas: uma linha por item, com quantidade (− 2 +).
 const ComandaCtx = createContext(null);
 const CHAVE = "andris-comanda-v2";
 const CHAVE_ANTIGA = "andris-comanda-v1";
@@ -14,9 +19,30 @@ const CHAVE_ANTIGA = "andris-comanda-v1";
 export const EXPIRA_EM_HORAS = 1;
 const EXPIRA_EM_MS = EXPIRA_EM_HORAS * 60 * 60 * 1000;
 
-// Uma linha é o lanche + os adicionais escolhidos. A ordem em que a pessoa
-// marcou os adicionais não importa para identificar a linha.
-export const chaveDa = (id, adicionais = []) => `${id}|${[...adicionais].sort().join(",")}`;
+let contador = 0;
+const novoUid = () => `${Date.now().toString(36)}-${(contador++).toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
+
+const ehLanche = (id) => aceitaAdicionais(itemPorId(id));
+const linhaLanche = (id, adicionais = [], obs = "") => ({ uid: novoUid(), id, qtd: 1, adicionais, obs });
+
+// Confere e arruma o que veio do localStorage. Itens e adicionais que saíram
+// do cardápio somem; lanche com qtd > 1 vira uma linha por lanche.
+function normaliza(linhasSalvas) {
+  const linhas = [];
+  for (const l of linhasSalvas) {
+    const qtd = Math.floor(Number(l?.qtd));
+    if (!itemPorId(l?.id) || !(qtd > 0)) continue;
+    if (ehLanche(l.id)) {
+      const adicionais = (Array.isArray(l.adicionais) ? l.adicionais : []).filter((a) => adicionalPorId(a));
+      for (let i = 0; i < qtd; i++) linhas.push(linhaLanche(l.id, [...adicionais], String(l.obs ?? "")));
+    } else {
+      const existe = linhas.find((x) => x.id === l.id);
+      if (existe) existe.qtd += qtd;
+      else linhas.push({ uid: novoUid(), id: l.id, qtd, adicionais: [], obs: "" });
+    }
+  }
+  return linhas;
+}
 
 function carregaSalvo() {
   try {
@@ -24,35 +50,10 @@ function carregaSalvo() {
     const salvo = JSON.parse(localStorage.getItem(CHAVE) || "null");
     if (!salvo || Array.isArray(salvo) || !Array.isArray(salvo.linhas)) return null;
     if (typeof salvo.alteradoEm !== "number" || Date.now() - salvo.alteradoEm > EXPIRA_EM_MS) return null;
-
-    // Descarta itens e adicionais que saíram do cardápio.
-    const linhas = salvo.linhas
-      .filter((l) => itemPorId(l?.id) && Number(l.qtd) > 0)
-      .map((l) => {
-        const adicionais = (Array.isArray(l.adicionais) ? l.adicionais : []).filter((a) => adicionalPorId(a));
-        return { chave: chaveDa(l.id, adicionais), id: l.id, adicionais, qtd: Number(l.qtd), obs: String(l.obs ?? "") };
-      });
-    return { linhas: junta(linhas), alteradoEm: salvo.alteradoEm };
+    return { linhas: normaliza(salvo.linhas), alteradoEm: salvo.alteradoEm };
   } catch {
     return null;
   }
-}
-
-// Junta linhas que ficaram com a mesma chave (ex.: depois de marcar um adicional).
-function junta(linhas) {
-  const porChave = new Map();
-  for (const l of linhas) {
-    const existe = porChave.get(l.chave);
-    if (!existe) {
-      porChave.set(l.chave, { ...l });
-      continue;
-    }
-    existe.qtd += l.qtd;
-    if (l.obs.trim() && l.obs.trim() !== existe.obs.trim()) {
-      existe.obs = existe.obs.trim() ? `${existe.obs.trim()} / ${l.obs.trim()}` : l.obs;
-    }
-  }
-  return [...porChave.values()];
 }
 
 export function ComandaProvider({ children }) {
@@ -80,62 +81,72 @@ export function ComandaProvider({ children }) {
     setEstado((atual) => ({ linhas: fn(atual.linhas), alteradoEm: Date.now() }));
   }, []);
 
-  // Pelo cardápio: o lanche entra (ou ganha +1) na linha sem adicionais.
-  // Também é o "Mais um sem adicionais" da comanda.
+  // Pelo cardápio (1 toque): lanche entra como linha nova; porção/bebida ganha +1.
   const adicionar = useCallback(
     (id) =>
       altera((atual) => {
-        const chave = chaveDa(id);
-        if (atual.some((l) => l.chave === chave)) {
-          return atual.map((l) => (l.chave === chave ? { ...l, qtd: l.qtd + 1 } : l));
-        }
-        return [...atual, { chave, id, adicionais: [], qtd: 1, obs: "" }];
+        if (ehLanche(id)) return [...atual, linhaLanche(id)];
+        if (atual.some((l) => l.id === id)) return atual.map((l) => (l.id === id ? { ...l, qtd: l.qtd + 1 } : l));
+        return [...atual, { uid: novoUid(), id, qtd: 1, adicionais: [], obs: "" }];
       }),
     [altera]
   );
 
-  // Pelo cardápio: tira um da linha sem adicionais; se não houver, da última linha desse lanche.
+  // Pelo cardápio (−): no lanche, tira primeiro o último que está sem adicional
+  // e sem observação, pra não apagar o que a pessoa já personalizou.
   const remover = useCallback(
     (id) =>
       altera((atual) => {
-        const simples = atual.find((l) => l.chave === chaveDa(id));
-        const alvo = simples ?? [...atual].reverse().find((l) => l.id === id);
-        if (!alvo) return atual;
-        return atual.map((l) => (l === alvo ? { ...l, qtd: l.qtd - 1 } : l)).filter((l) => l.qtd > 0);
+        const doItem = atual.filter((l) => l.id === id);
+        if (!doItem.length) return atual;
+        if (!ehLanche(id)) {
+          return atual.map((l) => (l.id === id ? { ...l, qtd: l.qtd - 1 } : l)).filter((l) => l.qtd > 0);
+        }
+        const simples = [...doItem].reverse().find((l) => !l.adicionais.length && !l.obs.trim());
+        const alvo = simples ?? doItem.at(-1);
+        return atual.filter((l) => l.uid !== alvo.uid);
       }),
     [altera]
   );
 
-  // Na comanda, cada ação age sobre uma linha (chave).
+  // Na comanda, cada ação age sobre uma linha (uid).
   const maisUm = useCallback(
-    (chave) => altera((atual) => atual.map((l) => (l.chave === chave ? { ...l, qtd: l.qtd + 1 } : l))),
+    (uid) => altera((atual) => atual.map((l) => (l.uid === uid ? { ...l, qtd: l.qtd + 1 } : l))),
     [altera]
   );
   const menosUm = useCallback(
-    (chave) =>
-      altera((atual) => atual.map((l) => (l.chave === chave ? { ...l, qtd: l.qtd - 1 } : l)).filter((l) => l.qtd > 0)),
+    (uid) => altera((atual) => atual.map((l) => (l.uid === uid ? { ...l, qtd: l.qtd - 1 } : l)).filter((l) => l.qtd > 0)),
     [altera]
   );
-  const tirar = useCallback((chave) => altera((atual) => atual.filter((l) => l.chave !== chave)), [altera]);
+  const tirar = useCallback((uid) => altera((atual) => atual.filter((l) => l.uid !== uid)), [altera]);
   const anotar = useCallback(
-    (chave, obs) => altera((atual) => atual.map((l) => (l.chave === chave ? { ...l, obs } : l))),
+    (uid, obs) => altera((atual) => atual.map((l) => (l.uid === uid ? { ...l, obs } : l))),
     [altera]
   );
 
-  // Marca ou desmarca um adicional na linha. A linha muda de chave e,
-  // se já existir outra igual, as duas viram uma só.
+  // "Repetir": mais um lanche igualzinho (mesmos adicionais e observação), logo abaixo.
+  const repetir = useCallback(
+    (uid) =>
+      altera((atual) => {
+        const i = atual.findIndex((l) => l.uid === uid);
+        if (i < 0) return atual;
+        const copia = linhaLanche(atual[i].id, [...atual[i].adicionais], atual[i].obs);
+        return [...atual.slice(0, i + 1), copia, ...atual.slice(i + 1)];
+      }),
+    [altera]
+  );
+
+  // Marca ou desmarca um adicional (cada um uma vez por lanche).
   const alternaAdicional = useCallback(
-    (chave, adicionalId) =>
+    (uid, adicionalId) =>
       altera((atual) =>
-        junta(
-          atual.map((l) => {
-            if (l.chave !== chave) return l;
-            const adicionais = l.adicionais.includes(adicionalId)
-              ? l.adicionais.filter((a) => a !== adicionalId)
-              : [...l.adicionais, adicionalId];
-            return { ...l, adicionais, chave: chaveDa(l.id, adicionais) };
-          })
-        )
+        atual.map((l) => {
+          if (l.uid !== uid) return l;
+          const adicionais = l.adicionais.includes(adicionalId)
+            ? l.adicionais.filter((a) => a !== adicionalId)
+            : [...l.adicionais, adicionalId];
+          return { ...l, adicionais };
+        })
       ),
     [altera]
   );
@@ -155,13 +166,14 @@ export function ComandaProvider({ children }) {
       menosUm,
       tirar,
       anotar,
+      repetir,
       alternaAdicional,
       limpar,
       aberta,
       abrir,
       fechar,
     }),
-    [linhas, aberta, adicionar, remover, maisUm, menosUm, tirar, anotar, alternaAdicional, limpar, abrir, fechar]
+    [linhas, aberta, adicionar, remover, maisUm, menosUm, tirar, anotar, repetir, alternaAdicional, limpar, abrir, fechar]
   );
 
   return <ComandaCtx.Provider value={valor}>{children}</ComandaCtx.Provider>;

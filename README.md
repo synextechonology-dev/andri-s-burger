@@ -23,7 +23,7 @@ Abra http://localhost:3000.
 ## Como o pedido funciona
 
 1. A pessoa toca em **Adicionar** nos itens do cardápio.
-2. Abre a **comanda**, ajusta quantidades, marca adicionais em cada lanche (bacon, ovo...) e escreve observações ("sem tomate"). Para pedir um com e outro sem adicional, usa "Mais um sem adicionais".
+2. Abre a **comanda**. Cada lanche aparece separado: em "+ Adicionais ou ajuste" a pessoa marca adicionais (bacon, ovo...) e escreve observações ("sem tomate") só naquele lanche. "Mais um igual" repete o lanche com os mesmos ajustes. Porções e bebidas têm quantidade (− 2 +).
    A comanda fica guardada no navegador e começa vazia se passar 1 hora sem alteração.
 3. Escolhe **retirar no food truck** (na hora ou com horário marcado) ou **receber em casa** (rua, bairro, referência).
 4. Escolhe Pix, cartão ou dinheiro (com troco).

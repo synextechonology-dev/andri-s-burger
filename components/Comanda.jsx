@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
-import { aceitaAdicionais, adicionais, itemPorId } from "@/data/cardapio";
+import { aceitaAdicionais, adicionais, adicionalPorId, itemPorId } from "@/data/cardapio";
 import { linkWhatsApp, montaMensagem, reais, subtotal, validaPedido, valorLinha } from "@/lib/pedido";
 import { useComanda } from "./ComandaContext";
 import { TracoPincel } from "./Marca";
@@ -38,6 +38,120 @@ function Erro({ texto }) {
   );
 }
 
+// Lanche na comanda: uma linha por lanche, com adicionais e observação próprios.
+// Os adicionais ficam recolhidos para a comanda não ficar comprida no celular.
+function LinhaLanche({ linha, item, ordem }) {
+  const { tirar, repetir, anotar, alternaAdicional } = useComanda();
+  const [aberto, setAberto] = useState(false);
+  const escolhidos = linha.adicionais.map(adicionalPorId).filter(Boolean);
+  const personalizado = escolhidos.length > 0 || linha.obs.trim() !== "";
+  const nome = ordem ? `${item.nome} (${ordem})` : item.nome;
+  const painelId = `ajustes-${linha.uid}`;
+
+  return (
+    <li className={`ticket__item ${aberto ? "is-aberto" : ""}`}>
+      <div className="ticket__item-linha">
+        <span className="ticket__nome">
+          {item.nome}
+          {ordem ? <span className="ticket__ordem">{ordem}</span> : null}
+        </span>
+        <span className="ticket__valor">{reais(valorLinha(linha))}</span>
+        <button type="button" className="ticket__tirar" onClick={() => tirar(linha.uid)} aria-label={`Tirar ${nome}`}>
+          ×
+        </button>
+      </div>
+
+      {personalizado && !aberto ? (
+        <p className="ticket__resumo">
+          {escolhidos.length ? <span>+ {escolhidos.map((a) => a.nome).join(", ")}</span> : null}
+          {linha.obs.trim() ? <span className="ticket__resumo-obs">“{linha.obs.trim()}”</span> : null}
+        </p>
+      ) : null}
+
+      <div className="ticket__item-acoes">
+        <button
+          type="button"
+          className={`ajustar ${aberto ? "is-aberto" : ""}`}
+          aria-expanded={aberto}
+          aria-controls={painelId}
+          onClick={() => setAberto((a) => !a)}
+        >
+          {aberto ? "Pronto" : personalizado ? "Editar" : "+ Adicionais ou ajuste"}
+          <span className="sr-only"> do {nome}</span>
+        </button>
+        <button type="button" className="ticket__link" onClick={() => repetir(linha.uid)}>
+          Mais um igual<span className="sr-only"> ao {nome}</span>
+        </button>
+      </div>
+
+      {aberto ? (
+        <div id={painelId} className="ajustes">
+          <fieldset className="extras">
+            <legend className="extras__titulo">Adicionais</legend>
+            <div className="extras__lista">
+              {adicionais.map((a) => {
+                const marcado = linha.adicionais.includes(a.id);
+                return (
+                  <button
+                    key={a.id}
+                    type="button"
+                    className={`extra ${marcado ? "is-marcado" : ""}`}
+                    aria-pressed={marcado}
+                    onClick={() => alternaAdicional(linha.uid, a.id)}
+                  >
+                    {a.nome} <span className="extra__preco">+{reais(a.preco)}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+          <label className="extras__titulo ajustes__rotulo" htmlFor={`obs-${linha.uid}`}>
+            Algum ajuste? <span className="campo__opcional">(opcional)</span>
+          </label>
+          <input
+            id={`obs-${linha.uid}`}
+            className="ticket__obs"
+            type="text"
+            value={linha.obs}
+            onChange={(e) => anotar(linha.uid, e.target.value)}
+            placeholder="Ex.: sem tomate"
+            maxLength={120}
+          />
+        </div>
+      ) : null}
+    </li>
+  );
+}
+
+// Porção e bebida: uma linha com quantidade.
+function LinhaSimples({ linha, item }) {
+  const { maisUm, menosUm, tirar } = useComanda();
+  return (
+    <li className="ticket__item">
+      <div className="ticket__item-linha">
+        <span className="ticket__nome">
+          <span className="ticket__qtd">{linha.qtd}x</span> {item.nome}
+        </span>
+        <span className="ticket__valor">{reais(valorLinha(linha))}</span>
+      </div>
+      <div className="ticket__item-acoes">
+        <div className="contador contador--claro" role="group" aria-label={`Quantidade de ${item.nome}`}>
+          <button type="button" onClick={() => menosUm(linha.uid)} aria-label={`Tirar um ${item.nome}`}>
+            −
+          </button>
+          <span>{linha.qtd}</span>
+          <button type="button" onClick={() => maisUm(linha.uid)} aria-label={`Mais um ${item.nome}`}>
+            +
+          </button>
+        </div>
+        <button type="button" className="ticket__link" onClick={() => tirar(linha.uid)}>
+          Tirar<span className="sr-only"> {item.nome}</span>
+        </button>
+      </div>
+    </li>
+  );
+}
+
 // Barra fixa que aparece quando há itens na comanda.
 export function BarraComanda() {
   const { quantidade, linhas, abrir, aberta } = useComanda();
@@ -53,7 +167,7 @@ export function BarraComanda() {
 
 // A comanda: lista do pedido + dados de entrega/retirada + envio pelo WhatsApp.
 export default function Comanda() {
-  const { linhas, aberta, fechar, adicionar, maisUm, menosUm, tirar, anotar, alternaAdicional, limpar } = useComanda();
+  const { linhas, aberta, fechar, limpar } = useComanda();
   const [dados, setDados] = useState(vazio);
   const [erros, setErros] = useState({});
   const [enviado, setEnviado] = useState(false);
@@ -169,74 +283,12 @@ export default function Comanda() {
                 {linhas.map((l) => {
                   const item = itemPorId(l.id);
                   if (!item) return null;
-                  const comAdicionais = aceitaAdicionais(item);
-                  const nomeLinha = l.adicionais.length
-                    ? `${item.nome} + ${l.adicionais.map((a) => adicionais.find((x) => x.id === a)?.nome).filter(Boolean).join(", ")}`
-                    : item.nome;
-                  return (
-                    <li key={l.chave} className="ticket__item">
-                      <div className="ticket__item-linha">
-                        <span className="ticket__qtd">{l.qtd}x</span>
-                        <span className="ticket__nome">{item.nome}</span>
-                        <span className="ticket__valor">{reais(valorLinha(l))}</span>
-                      </div>
-                      <div className="ticket__item-acoes">
-                        <div className="contador contador--claro" role="group" aria-label={`Quantidade de ${nomeLinha}`}>
-                          <button type="button" onClick={() => menosUm(l.chave)} aria-label={`Tirar um ${nomeLinha}`}>
-                            −
-                          </button>
-                          <span>{l.qtd}</span>
-                          <button type="button" onClick={() => maisUm(l.chave)} aria-label={`Mais um ${nomeLinha}`}>
-                            +
-                          </button>
-                        </div>
-                        <button type="button" className="ticket__link" onClick={() => tirar(l.chave)}>
-                          Tirar
-                        </button>
-                      </div>
-
-                      {comAdicionais ? (
-                        <fieldset className="extras">
-                          <legend className="extras__titulo">
-                            Adicionais
-                            {l.qtd > 1 ? <span className="extras__nota"> (valem para os {l.qtd} desta linha)</span> : null}
-                          </legend>
-                          <div className="extras__lista">
-                            {adicionais.map((a) => {
-                              const marcado = l.adicionais.includes(a.id);
-                              return (
-                                <button
-                                  key={a.id}
-                                  type="button"
-                                  className={`extra ${marcado ? "is-marcado" : ""}`}
-                                  aria-pressed={marcado}
-                                  onClick={() => alternaAdicional(l.chave, a.id)}
-                                >
-                                  {a.nome} <span className="extra__preco">+{reais(a.preco)}</span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                          {l.adicionais.length ? (
-                            <button type="button" className="ticket__link extras__sem" onClick={() => adicionar(l.id)}>
-                              Mais um sem adicionais<span className="sr-only"> ({item.nome})</span>
-                            </button>
-                          ) : null}
-                        </fieldset>
-                      ) : null}
-
-                      {item.ingredientes ? (
-                        <input
-                          className="ticket__obs"
-                          type="text"
-                          value={l.obs}
-                          onChange={(e) => anotar(l.chave, e.target.value)}
-                          placeholder="Algum ajuste? Ex.: sem tomate"
-                          aria-label={`Observação para ${nomeLinha}`}
-                          maxLength={120}
-                        />
-                      ) : null}
-                    </li>
+                  const mesmos = linhas.filter((x) => x.id === l.id);
+                  const ordem = mesmos.length > 1 ? `${mesmos.indexOf(l) + 1} de ${mesmos.length}` : null;
+                  return aceitaAdicionais(item) ? (
+                    <LinhaLanche key={l.uid} linha={l} item={item} ordem={ordem} />
+                  ) : (
+                    <LinhaSimples key={l.uid} linha={l} item={item} />
                   );
                 })}
               </ul>
