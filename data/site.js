@@ -44,7 +44,6 @@ export const site = {
 
 // Horários no fuso de Brasília (Camboriú usa o mesmo).
 // dia: 0 = domingo ... 6 = sábado. Horários em "HH:MM".
-// CONFIRMAR: domingo veio como "21h30 às 23h3". Considerado 23h30.
 export const horarios = [
   { dia: 0, nome: "Domingo", abre: "21:30", fecha: "23:30" },
   { dia: 1, nome: "Segunda", abre: null, fecha: null },

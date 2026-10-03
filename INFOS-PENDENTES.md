@@ -4,8 +4,7 @@ Cada item diz onde mexer no projeto.
 
 ## Contato e funcionamento
 
-- [ ] **Horário de domingo.** Veio "21h30 às 23h3". No site está 21h30 às 23h30.
-  Onde: `data/site.js` → `horarios`.
+- [x] **Horário de domingo.** Confirmado: 21h30 às 23h30. Sexta também vai até 23h30.
 - [ ] **Taxa de entrega e bairros atendidos** (João vai ver com a Andriele). Hoje a mensagem diz "taxa de entrega a combinar". Se a taxa for fixa, coloque o valor em `taxaEntrega` e ela entra no total automaticamente. Se depender do bairro, avise que a gente monta uma lista.
   Onde: `data/site.js` → `taxaEntrega`.
 - [ ] **Formas de pagamento.** O site oferece Pix, cartão e dinheiro com troco. Confirmar se aceita as três e se cartão é crédito, débito ou os dois.
