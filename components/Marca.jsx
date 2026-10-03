@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 // Elementos gráficos da identidade visual (seção 05 do manual).
 
 // Faíscas: três traços em leque que enquadram uma palavra de destaque.
@@ -43,12 +45,12 @@ export function Preco({ valor, className = "" }) {
 // caminho do arquivo esperado, para facilitar a troca.
 const DEV = process.env.NODE_ENV !== "production";
 
-export function Foto({ src, alt, temFoto = false, proporcao = "4 / 3", className = "", prioridade = false, reserva = null, legenda = null }) {
+// sizes: largura que a foto ocupa na tela, para o next/image escolher o tamanho certo.
+export function Foto({ src, alt, temFoto = false, proporcao = "4 / 3", className = "", prioridade = false, reserva = null, legenda = null, sizes = "100vw" }) {
   if (temFoto && src) {
     return (
       <div className={`foto ${className}`} style={{ aspectRatio: proporcao }}>
-        {/* Troque por next/image quando as fotos reais estiverem em /public */}
-        <img src={src} alt={alt} loading={prioridade ? "eager" : "lazy"} />
+        <Image src={src} alt={alt} fill sizes={sizes} priority={prioridade} />
       </div>
     );
   }

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
 import { aceitaAdicionais, adicionais, adicionalPorId, itemPorId } from "@/data/cardapio";
-import { linkWhatsApp, montaMensagem, reais, subtotal, validaPedido, valorLinha } from "@/lib/pedido";
+import { linkWhatsApp, montaMensagem, nomeComOpcao, reais, subtotal, validaPedido, valorLinha } from "@/lib/pedido";
 import { useComanda } from "./ComandaContext";
 import { TracoPincel } from "./Marca";
 
@@ -126,26 +126,27 @@ function LinhaLanche({ linha, item, ordem }) {
 // Porção e bebida: uma linha com quantidade.
 function LinhaSimples({ linha, item }) {
   const { maisUm, menosUm, tirar } = useComanda();
+  const nome = nomeComOpcao(linha);
   return (
     <li className="ticket__item">
       <div className="ticket__item-linha">
         <span className="ticket__nome">
-          <span className="ticket__qtd">{linha.qtd}x</span> {item.nome}
+          <span className="ticket__qtd">{linha.qtd}x</span> {nome}
         </span>
         <span className="ticket__valor">{reais(valorLinha(linha))}</span>
       </div>
       <div className="ticket__item-acoes">
-        <div className="contador contador--claro" role="group" aria-label={`Quantidade de ${item.nome}`}>
-          <button type="button" onClick={() => menosUm(linha.uid)} aria-label={`Tirar um ${item.nome}`}>
+        <div className="contador contador--claro" role="group" aria-label={`Quantidade de ${nome}`}>
+          <button type="button" onClick={() => menosUm(linha.uid)} aria-label={`Tirar um ${nome}`}>
             −
           </button>
           <span>{linha.qtd}</span>
-          <button type="button" onClick={() => maisUm(linha.uid)} aria-label={`Mais um ${item.nome}`}>
+          <button type="button" onClick={() => maisUm(linha.uid)} aria-label={`Mais um ${nome}`}>
             +
           </button>
         </div>
         <button type="button" className="ticket__link" onClick={() => tirar(linha.uid)}>
-          Tirar<span className="sr-only"> {item.nome}</span>
+          Tirar<span className="sr-only"> {nome}</span>
         </button>
       </div>
     </li>

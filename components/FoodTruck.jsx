@@ -1,14 +1,14 @@
 import { site } from "@/data/site";
 import { Foto, TracoPincel } from "./Marca";
-import { Truck } from "./Ilustracoes";
 
-// Fotos do food truck. Troque temFoto para true quando o arquivo estiver em /public.
-const fotos = [
-  { src: "/fotos/food-truck/truck.jpg", alt: "O food truck da Andri's Burger", legenda: null, temFoto: false, classe: "galeria__item--largo", proporcao: "16 / 9" },
-  { src: "/fotos/food-truck/janela.jpg", alt: "A janela de atendimento", legenda: "A janela", temFoto: false, classe: "", proporcao: "4 / 5" },
-  { src: "/fotos/food-truck/chapa.jpg", alt: "Lanche na chapa", legenda: "A chapa", temFoto: false, classe: "", proporcao: "4 / 5" },
-  { src: "/fotos/food-truck/andriele.jpg", alt: "Andriele, a dona", legenda: "A Andriele", temFoto: false, classe: "", proporcao: "4 / 5" },
-];
+// Seção da casa: texto + a foto da Andriele (a única foto desta seção).
+// Desktop: texto à esquerda, foto à direita. Celular: foto em cima, texto embaixo.
+const foto = {
+  src: "/fotos/food-truck/andriele.jpg",
+  alt: "Andriele, dona da Andri's Burger",
+  temFoto: true,
+  proporcao: "4 / 5",
+};
 
 export default function FoodTruck() {
   return (
@@ -36,20 +36,16 @@ export default function FoodTruck() {
           </p>
         </div>
 
-        <div className="galeria">
-          {fotos.map((f, i) => (
-            <Foto
-              key={f.src}
-              src={f.src}
-              alt={f.alt}
-              temFoto={f.temFoto}
-              proporcao={f.proporcao}
-              className={`galeria__item ${f.classe}`}
-              legenda={f.legenda}
-              reserva={i === 0 ? <Truck /> : null}
-            />
-          ))}
-        </div>
+        <figure className="truck-sobre__retrato">
+          <Foto
+            src={foto.src}
+            alt={foto.alt}
+            temFoto={foto.temFoto}
+            proporcao={foto.proporcao}
+            className="truck-sobre__foto"
+            sizes="(max-width: 960px) min(100vw, 440px), 440px"
+          />
+        </figure>
       </div>
     </section>
   );

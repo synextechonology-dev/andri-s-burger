@@ -2,6 +2,7 @@ import { adicionais, categorias, itensDa, pao } from "@/data/cardapio";
 import { Faiscas, Foto, Preco, TracoPincel } from "./Marca";
 import BotaoAdicionar from "./BotaoAdicionar";
 import { Batata, BurgerMontado } from "./Ilustracoes";
+import LinhaComOpcoes from "./LinhaComOpcoes";
 
 const maiuscula = (texto) => texto.charAt(0).toUpperCase() + texto.slice(1);
 const juntaIngredientes = (lista) =>
@@ -102,6 +103,7 @@ function Especial({ item }) {
 
 // Linha simples (porções e bebidas): nome, detalhe e preço, com pontilhado no meio.
 function LinhaSimples({ item }) {
+  if (item.opcoes?.length) return <LinhaComOpcoes item={item} />;
   return (
     <li className="linha">
       <div className="linha__texto">

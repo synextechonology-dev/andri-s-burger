@@ -23,7 +23,8 @@ Cada item diz onde mexer no projeto.
 - [ ] **X-Tudão.** Diz "hambúrguer", sem "bovino". Confirmar se é a mesma carne dos outros.
 - [ ] **Batata frita simples.** Qual o peso? A média é 500 g.
 - [ ] **Adicional queijo + bacon (R$ 15).** Vale para as duas porções de batata?
-- [x] **Refrigerantes.** Só Coca-Cola: lata R$ 6, 600 ml R$ 9, 2 litros R$ 17.
+- [x] **Refrigerantes.** Coca-Cola, Guaraná e Sprite: lata R$ 6, 600 ml R$ 9, 2 litros R$ 17 (mesmo preço para os três sabores).
+- [x] **Água.** Sem gás e com gás, R$ 4. Falta confirmar o tamanho.
 - [x] **Pão.** Todos os lanches no pão brioche de 12 cm (destaque no topo do cardápio; "Pão" saiu da lista de ingredientes).
 - [x] **Adicionais.** Maionese R$ 2, cebola roxa R$ 2, ovo R$ 3, calabresa R$ 6, bacon R$ 7, hambúrguer extra R$ 7. Valem para clássicos e especiais.
   Onde: `data/cardapio.js` → `adicionais`.
@@ -52,10 +53,7 @@ Formato: JPG, lado maior com 1600 px no máximo, até ~300 KB cada. Depois de co
 
 **Food truck** (`public/fotos/food-truck/`):
 
-- [ ] truck.jpg: o truck inteiro, horizontal
-- [ ] janela.jpg: a janela de atendimento
-- [ ] chapa.jpg: lanche sendo feito
-- [ ] andriele.jpg: a Andriele (só com autorização dela)
+- [x] andriele.jpg: a Andriele (colocada, autorizada por ela). A Andriele não vai ter fotos do truck, da janela nem da chapa; a seção usa só a foto dela.
 
 ## Textos já definidos (não mudar sem combinar)
 

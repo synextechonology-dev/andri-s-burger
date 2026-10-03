@@ -31,7 +31,8 @@ components/
   Cardapio          clássicos, especiais, porções e bebidas
   BotaoAdicionar    Adicionar / − 1 +
   Comanda           painel do pedido + BarraComanda (barra fixa)
-  FoodTruck         sobre o truck + galeria de fotos
+  FoodTruck         sobre a casa + foto da Andriele
+  LinhaComOpcoes    linha do cardápio com chips de opção (sabor da bebida)
   OndeQuando        endereço, mapa, tabela de horários
   Rodape
   Marca             Faiscas, TracoPincel, Preco, Foto (elementos do manual)
@@ -79,7 +80,7 @@ Do manual: "como no balcão: próximo, animado e curto. Pode ter gíria, mas nã
 
 - Salva no localStorage (`andris-comanda-v2`) como `{ alteradoEm, linhas }`. Se ficar mais de `EXPIRA_EM_HORAS` (1 h) sem alteração, a próxima visita começa vazia. Formato antigo (array puro, chave `-v1`) é descartado.
 - **Lanche (clássicos e especiais): uma linha por lanche** (`qtd` sempre 1), cada um com seus adicionais e sua observação. Os adicionais ficam recolhidos em "+ Adicionais ou ajuste"; fechado, aparece um resumo ("+ Bacon, Ovo" e a observação). "Mais um igual" duplica o lanche logo abaixo; "×" tira.
-- **Porções e bebidas:** uma linha por item, com quantidade (− 2 +).
+- **Porções e bebidas:** uma linha por item + opção, com quantidade (− 2 +). Itens com `opcoes` (sabor do refrigerante, água com/sem gás) mostram chips no cardápio; a primeira opção vem marcada e o contador é daquela opção. Na comanda e na mensagem: "Refrigerante lata (Guaraná)".
 - "Adicionar" no cardápio é 1 toque e não abre nada: lanche vira linha nova. O "−" do cardápio tira primeiro um lanche sem adicional e sem observação, para não apagar o que a pessoa personalizou.
 - Mensagem do WhatsApp: lanches idênticos (mesmos adicionais e mesma observação) são agrupados em "Nx" (`agrupaLinhas` em `lib/pedido.js`). Valor = (lanche + adicionais) × quantidade (`valorLinha`).
 - Adicionais valem só para clássicos e especiais (`aceitaAdicionais`).
@@ -92,7 +93,7 @@ Do manual: "como no balcão: próximo, animado e curto. Pode ter gíria, mas nã
 3. Responsivo de 320 px a 1920 px sem rolagem horizontal. Testar em 360, 390, 768, 1024 e 1440.
 4. A porta de enrolar da abertura só anima na primeira visita e não aparece com `prefers-reduced-motion`. É o único movimento automático do site; não acrescente animações de entrada em seções. O letreiro e o "camada por camada" só se mexem quando a pessoa rola (via `useRolagem`); com movimento reduzido ficam parados e o lanche aparece aberto. O neon da abertura brilha fixo, sem piscar.
 5. Acessibilidade: foco visível, botões com rótulo, contraste AA. Amarelo sobre guardanapo não passa contraste: em fundo claro, preço e botão são pretos.
-6. Fotos: quando chegarem, trocar `temFoto` para `true`. Se quiser otimizar, trocar o `<img>` do componente `Foto` por `next/image`.
+6. Fotos: quando chegarem, trocar `temFoto` para `true`. O componente `Foto` já usa `next/image` (com `fill` e `sizes`). A seção do food truck tem só a foto da Andriele (`andriele.jpg`); ela não terá fotos do truck, da janela ou da chapa.
 
 ## Próximos passos sugeridos
 

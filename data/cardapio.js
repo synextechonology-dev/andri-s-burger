@@ -153,11 +153,13 @@ export const itens = [
   },
 
   // Bebidas
-  // CONFIRMAR: água com ou sem gás e tamanho.
-  { id: "coca-lata", categoria: "bebidas", nome: "Coca-Cola lata", preco: 6 },
-  { id: "coca-600", categoria: "bebidas", nome: "Coca-Cola 600 ml", preco: 9 },
-  { id: "coca-2l", categoria: "bebidas", nome: "Coca-Cola 2 litros", preco: 17 },
-  { id: "agua", categoria: "bebidas", nome: "Água", preco: 4 },
+  // opcoes: sabores/tipos (rotuloOpcoes diz como chamar). Preço igual para todas as opções da linha.
+  // No cardápio, a pessoa escolhe a opção antes de adicionar; na comanda, cada opção vira uma linha.
+  // CONFIRMAR: tamanho da água.
+  { id: "refri-lata", categoria: "bebidas", nome: "Refrigerante lata", preco: 6, rotuloOpcoes: "Sabor", opcoes: ["Coca-Cola", "Guaraná", "Sprite"] },
+  { id: "refri-600", categoria: "bebidas", nome: "Refrigerante 600 ml", preco: 9, rotuloOpcoes: "Sabor", opcoes: ["Coca-Cola", "Guaraná", "Sprite"] },
+  { id: "refri-2l", categoria: "bebidas", nome: "Refrigerante 2 litros", preco: 17, rotuloOpcoes: "Sabor", opcoes: ["Coca-Cola", "Guaraná", "Sprite"] },
+  { id: "agua", categoria: "bebidas", nome: "Água", preco: 4, rotuloOpcoes: "Tipo", opcoes: ["Sem gás", "Com gás"] },
 ];
 
 // Destaque do topo do cardápio. Vale para todos os lanches.

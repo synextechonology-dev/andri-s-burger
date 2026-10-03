@@ -5,12 +5,13 @@ import { aceitaAdicionais, adicionalPorId, itemPorId } from "@/data/cardapio";
 
 // Estado da comanda (carrinho). Fica salvo no navegador da pessoa
 // para não perder o pedido se ela recarregar a página.
-// Formato salvo: { alteradoEm: <ms>, linhas: [{ uid, id, qtd, adicionais, obs }] }
+// Formato salvo: { alteradoEm: <ms>, linhas: [{ uid, id, opcao, qtd, adicionais, obs }] }
 //
 // Como as linhas funcionam:
 // - Lanche (clássicos e especiais): cada lanche é uma linha própria (qtd sempre 1),
 //   com seus adicionais e sua observação. Assim dá pra pedir "um com bacon, um sem tomate".
-// - Porções e bebidas: uma linha por item, com quantidade (− 2 +).
+// - Porções e bebidas: uma linha por item + opção (sabor), com quantidade (− 2 +).
+//   "Refrigerante lata (Coca-Cola)" e "Refrigerante lata (Guaraná)" são linhas diferentes.
 const ComandaCtx = createContext(null);
 const CHAVE = "andris-comanda-v2";
 const CHAVE_ANTIGA = "andris-comanda-v1";
@@ -23,7 +24,15 @@ let contador = 0;
 const novoUid = () => `${Date.now().toString(36)}-${(contador++).toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
 
 const ehLanche = (id) => aceitaAdicionais(itemPorId(id));
-const linhaLanche = (id, adicionais = [], obs = "") => ({ uid: novoUid(), id, qtd: 1, adicionais, obs });
+
+// Opção válida do item (sabor). Sem opção escolhida, vale a primeira; item sem opções fica null.
+const opcaoDo = (id, opcao) => {
+  const opcoes = itemPorId(id)?.opcoes;
+  if (!opcoes?.length) return null;
+  return opcoes.includes(opcao) ? opcao : opcoes[0];
+};
+const linhaSimples = (id, opcao, qtd = 1) => ({ uid: novoUid(), id, opcao, qtd, adicionais: [], obs: "" });
+const linhaLanche = (id, adicionais = [], obs = "") => ({ uid: novoUid(), id, opcao: null, qtd: 1, adicionais, obs });
 
 // Confere e arruma o que veio do localStorage. Itens e adicionais que saíram
 // do cardápio somem; lanche com qtd > 1 vira uma linha por lanche.
@@ -36,9 +45,10 @@ function normaliza(linhasSalvas) {
       const adicionais = (Array.isArray(l.adicionais) ? l.adicionais : []).filter((a) => adicionalPorId(a));
       for (let i = 0; i < qtd; i++) linhas.push(linhaLanche(l.id, [...adicionais], String(l.obs ?? "")));
     } else {
-      const existe = linhas.find((x) => x.id === l.id);
+      const opcao = opcaoDo(l.id, l.opcao);
+      const existe = linhas.find((x) => x.id === l.id && x.opcao === opcao);
       if (existe) existe.qtd += qtd;
-      else linhas.push({ uid: novoUid(), id: l.id, qtd, adicionais: [], obs: "" });
+      else linhas.push(linhaSimples(l.id, opcao, qtd));
     }
   }
   return linhas;
@@ -81,13 +91,16 @@ export function ComandaProvider({ children }) {
     setEstado((atual) => ({ linhas: fn(atual.linhas), alteradoEm: Date.now() }));
   }, []);
 
-  // Pelo cardápio (1 toque): lanche entra como linha nova; porção/bebida ganha +1.
+  // Pelo cardápio (1 toque): lanche entra como linha nova; porção/bebida ganha +1
+  // na linha da opção escolhida (sabor).
   const adicionar = useCallback(
-    (id) =>
+    (id, opcaoEscolhida) =>
       altera((atual) => {
         if (ehLanche(id)) return [...atual, linhaLanche(id)];
-        if (atual.some((l) => l.id === id)) return atual.map((l) => (l.id === id ? { ...l, qtd: l.qtd + 1 } : l));
-        return [...atual, { uid: novoUid(), id, qtd: 1, adicionais: [], obs: "" }];
+        const opcao = opcaoDo(id, opcaoEscolhida);
+        const mesma = (l) => l.id === id && l.opcao === opcao;
+        if (atual.some(mesma)) return atual.map((l) => (mesma(l) ? { ...l, qtd: l.qtd + 1 } : l));
+        return [...atual, linhaSimples(id, opcao)];
       }),
     [altera]
   );
@@ -95,13 +108,15 @@ export function ComandaProvider({ children }) {
   // Pelo cardápio (−): no lanche, tira primeiro o último que está sem adicional
   // e sem observação, pra não apagar o que a pessoa já personalizou.
   const remover = useCallback(
-    (id) =>
+    (id, opcaoEscolhida) =>
       altera((atual) => {
+        if (!ehLanche(id)) {
+          const opcao = opcaoDo(id, opcaoEscolhida);
+          const mesma = (l) => l.id === id && l.opcao === opcao;
+          return atual.map((l) => (mesma(l) ? { ...l, qtd: l.qtd - 1 } : l)).filter((l) => l.qtd > 0);
+        }
         const doItem = atual.filter((l) => l.id === id);
         if (!doItem.length) return atual;
-        if (!ehLanche(id)) {
-          return atual.map((l) => (l.id === id ? { ...l, qtd: l.qtd - 1 } : l)).filter((l) => l.qtd > 0);
-        }
         const simples = [...doItem].reverse().find((l) => !l.adicionais.length && !l.obs.trim());
         const alvo = simples ?? doItem.at(-1);
         return atual.filter((l) => l.uid !== alvo.uid);
@@ -159,7 +174,11 @@ export function ComandaProvider({ children }) {
     () => ({
       linhas,
       quantidade: linhas.reduce((s, l) => s + l.qtd, 0),
-      qtdDe: (id) => linhas.filter((l) => l.id === id).reduce((s, l) => s + l.qtd, 0),
+      // Quantidade do item no cardápio. Com opção (sabor), conta só aquela opção.
+      qtdDe: (id, opcao) =>
+        linhas
+          .filter((l) => l.id === id && (opcao === undefined || l.opcao === opcaoDo(id, opcao)))
+          .reduce((s, l) => s + l.qtd, 0),
       adicionar,
       remover,
       maisUm,
