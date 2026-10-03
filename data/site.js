@@ -51,6 +51,6 @@ export const horarios = [
   { dia: 2, nome: "Terça", abre: "19:30", fecha: "23:00" },
   { dia: 3, nome: "Quarta", abre: "19:30", fecha: "23:00" },
   { dia: 4, nome: "Quinta", abre: "19:30", fecha: "23:00" },
-  { dia: 5, nome: "Sexta", abre: "19:30", fecha: "23:00" },
+  { dia: 5, nome: "Sexta", abre: "19:30", fecha: "23:30" },
   { dia: 6, nome: "Sábado", abre: "19:30", fecha: "23:00" },
 ];
