@@ -19,7 +19,7 @@ app/
   globals.css       tokens + todos os estilos (comentado por seção)
   icon.png          favicon (selo)
 components/
-  ComandaContext    estado do carrinho (salvo no localStorage)
+  ComandaContext    estado do carrinho (salvo no localStorage, expira em EXPIRA_EM_HORAS)
   Cabecalho         topo fixo + botão da comanda + menu mobile
   Abertura          primeira dobra: janela do food truck com toldo, neon e porta de enrolar
   Letreiro          faixas de texto que deslizam com a rolagem
@@ -37,7 +37,7 @@ components/
   Marca             Faiscas, TracoPincel, Preco, Foto (elementos do manual)
 data/
   site.js           WhatsApp, endereço, horários, textos da marca
-  cardapio.js       itens, preços, ingredientes, caminho das fotos
+  cardapio.js       itens, preços, ingredientes, fotos, adicionais e o destaque do pão
 lib/
   horario.js        aberto/fechado no fuso America/Sao_Paulo
   pedido.js         validação e montagem da mensagem do WhatsApp
@@ -74,6 +74,14 @@ Cada seção usa uma classe de tema que define as variáveis de cor: `tema-preto
 ## Tom de voz
 
 Do manual: "como no balcão: próximo, animado e curto. Pode ter gíria, mas não precisa gritar." Frases curtas, verbos diretos, sem travessão (—), sem exagero ("incrível", "o melhor da cidade"). Não inventar fatos sobre a casa (tempo de entrega, ingredientes, prêmios).
+
+## Comanda
+
+- Salva no localStorage (`andris-comanda-v2`) como `{ alteradoEm, linhas }`. Se ficar mais de `EXPIRA_EM_HORAS` (1 h) sem alteração, a próxima visita começa vazia. Formato antigo (array puro, chave `-v1`) é descartado.
+- Cada linha é lanche + adicionais (`chave` = id + adicionais em ordem alfabética). Marcar um adicional muda a chave; se já existir outra linha igual, elas se juntam.
+- "Adicionar" no cardápio põe o lanche na linha sem adicionais, com 1 toque. Os adicionais só se escolhem na comanda. "Mais um sem adicionais" cria/incrementa a linha simples do mesmo lanche.
+- Adicionais valem só para clássicos e especiais (`aceitaAdicionais`). Valor da linha = (lanche + adicionais) × quantidade (`valorLinha` em `lib/pedido.js`).
+- Depois de enviar o pedido, fechar o painel limpa a comanda.
 
 ## Regras
 

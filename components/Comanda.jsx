@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { site } from "@/data/site";
-import { itemPorId } from "@/data/cardapio";
-import { linkWhatsApp, montaMensagem, reais, subtotal, validaPedido } from "@/lib/pedido";
+import { aceitaAdicionais, adicionais, itemPorId } from "@/data/cardapio";
+import { linkWhatsApp, montaMensagem, reais, subtotal, validaPedido, valorLinha } from "@/lib/pedido";
 import { useComanda } from "./ComandaContext";
 import { TracoPincel } from "./Marca";
 
@@ -53,7 +53,7 @@ export function BarraComanda() {
 
 // A comanda: lista do pedido + dados de entrega/retirada + envio pelo WhatsApp.
 export default function Comanda() {
-  const { linhas, aberta, fechar, adicionar, remover, tirar, anotar, limpar } = useComanda();
+  const { linhas, aberta, fechar, adicionar, maisUm, menosUm, tirar, anotar, alternaAdicional, limpar } = useComanda();
   const [dados, setDados] = useState(vazio);
   const [erros, setErros] = useState({});
   const [enviado, setEnviado] = useState(false);
@@ -74,9 +74,15 @@ export default function Comanda() {
     };
   }, [aberta, fechar]);
 
+  // Pedido enviado + painel fechado: a comanda volta vazia para o próximo pedido.
   useEffect(() => {
-    if (!aberta) setEnviado(false);
-  }, [aberta]);
+    if (aberta || !enviado) return;
+    limpar();
+    setDados(vazio);
+    setErros({});
+    setTentou(false);
+    setEnviado(false);
+  }, [aberta, enviado, limpar]);
 
   // Depois da primeira tentativa de envio, os avisos somem assim que o campo é preenchido.
   useEffect(() => {
@@ -163,35 +169,70 @@ export default function Comanda() {
                 {linhas.map((l) => {
                   const item = itemPorId(l.id);
                   if (!item) return null;
+                  const comAdicionais = aceitaAdicionais(item);
+                  const nomeLinha = l.adicionais.length
+                    ? `${item.nome} + ${l.adicionais.map((a) => adicionais.find((x) => x.id === a)?.nome).filter(Boolean).join(", ")}`
+                    : item.nome;
                   return (
-                    <li key={l.id} className="ticket__item">
+                    <li key={l.chave} className="ticket__item">
                       <div className="ticket__item-linha">
                         <span className="ticket__qtd">{l.qtd}x</span>
                         <span className="ticket__nome">{item.nome}</span>
-                        <span className="ticket__valor">{reais(item.preco * l.qtd)}</span>
+                        <span className="ticket__valor">{reais(valorLinha(l))}</span>
                       </div>
                       <div className="ticket__item-acoes">
-                        <div className="contador contador--claro" role="group" aria-label={`Quantidade de ${item.nome}`}>
-                          <button type="button" onClick={() => remover(l.id)} aria-label={`Tirar um ${item.nome}`}>
+                        <div className="contador contador--claro" role="group" aria-label={`Quantidade de ${nomeLinha}`}>
+                          <button type="button" onClick={() => menosUm(l.chave)} aria-label={`Tirar um ${nomeLinha}`}>
                             −
                           </button>
                           <span>{l.qtd}</span>
-                          <button type="button" onClick={() => adicionar(l.id)} aria-label={`Mais um ${item.nome}`}>
+                          <button type="button" onClick={() => maisUm(l.chave)} aria-label={`Mais um ${nomeLinha}`}>
                             +
                           </button>
                         </div>
-                        <button type="button" className="ticket__link" onClick={() => tirar(l.id)}>
+                        <button type="button" className="ticket__link" onClick={() => tirar(l.chave)}>
                           Tirar
                         </button>
                       </div>
+
+                      {comAdicionais ? (
+                        <fieldset className="extras">
+                          <legend className="extras__titulo">
+                            Adicionais
+                            {l.qtd > 1 ? <span className="extras__nota"> (valem para os {l.qtd} desta linha)</span> : null}
+                          </legend>
+                          <div className="extras__lista">
+                            {adicionais.map((a) => {
+                              const marcado = l.adicionais.includes(a.id);
+                              return (
+                                <button
+                                  key={a.id}
+                                  type="button"
+                                  className={`extra ${marcado ? "is-marcado" : ""}`}
+                                  aria-pressed={marcado}
+                                  onClick={() => alternaAdicional(l.chave, a.id)}
+                                >
+                                  {a.nome} <span className="extra__preco">+{reais(a.preco)}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                          {l.adicionais.length ? (
+                            <button type="button" className="ticket__link extras__sem" onClick={() => adicionar(l.id)}>
+                              Mais um sem adicionais<span className="sr-only"> ({item.nome})</span>
+                            </button>
+                          ) : null}
+                        </fieldset>
+                      ) : null}
+
                       {item.ingredientes ? (
                         <input
                           className="ticket__obs"
                           type="text"
                           value={l.obs}
-                          onChange={(e) => anotar(l.id, e.target.value)}
+                          onChange={(e) => anotar(l.chave, e.target.value)}
                           placeholder="Algum ajuste? Ex.: sem tomate"
-                          aria-label={`Observação para ${item.nome}`}
+                          aria-label={`Observação para ${nomeLinha}`}
                           maxLength={120}
                         />
                       ) : null}

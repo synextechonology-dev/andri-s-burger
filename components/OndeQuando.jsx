@@ -45,6 +45,9 @@ export default function OndeQuando() {
           </div>
 
           <figure className="mapa">
+            <p className="mapa__etiqueta" aria-hidden="true">
+              A Andri's tá aqui
+            </p>
             <div className="mapa__moldura">
               <iframe
                 className="mapa__iframe"
@@ -54,9 +57,6 @@ export default function OndeQuando() {
                 referrerPolicy="no-referrer-when-downgrade"
                 allowFullScreen
               />
-              <span className="mapa__etiqueta" aria-hidden="true">
-                A Andri's tá aqui
-              </span>
             </div>
             <figcaption className="mapa__legenda">
               <a href={site.mapaUrl} target="_blank" rel="noopener noreferrer">

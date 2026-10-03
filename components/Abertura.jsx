@@ -84,8 +84,7 @@ export default function Abertura() {
               </h1>
               <p className="truck__apoio">
                 Hambúrguer de chapa num food truck em {site.endereco.cidade.replace(", SC", "")}. Escolhe o
-                lanche, monta a comanda aqui e o pedido chega escrito no WhatsApp da {site.dona}.{" "}
-                <strong>Sem app, sem cadastro.</strong>
+                lanche, monta a comanda aqui e o pedido chega escrito no WhatsApp da {site.dona}.
               </p>
 
               <div className="truck__acoes">

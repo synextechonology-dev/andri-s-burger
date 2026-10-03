@@ -1,10 +1,35 @@
-import { categorias, itensDa } from "@/data/cardapio";
+import { adicionais, categorias, itensDa, pao } from "@/data/cardapio";
 import { Faiscas, Foto, Preco, TracoPincel } from "./Marca";
 import BotaoAdicionar from "./BotaoAdicionar";
 import { Batata, BurgerMontado } from "./Ilustracoes";
 
+const maiuscula = (texto) => texto.charAt(0).toUpperCase() + texto.slice(1);
 const juntaIngredientes = (lista) =>
-  lista.length > 1 ? `${lista.slice(0, -1).join(", ")} e ${lista.at(-1)}.` : `${lista[0]}.`;
+  maiuscula(lista.length > 1 ? `${lista.slice(0, -1).join(", ")} e ${lista.at(-1)}.` : `${lista[0]}.`);
+
+// Quadro informativo dos adicionais. A escolha acontece na comanda, em cada lanche.
+function Turbine() {
+  return (
+    <aside className="turbine" aria-labelledby="titulo-turbine">
+      <div className="turbine__topo">
+        <h3 id="titulo-turbine" className="turbine__titulo">
+          <Faiscas />
+          Turbine seu lanche
+          <Faiscas lado="direita" />
+        </h3>
+        <p className="turbine__apoio">Vale pra qualquer lanche, clássico ou especial. Você escolhe na comanda.</p>
+      </div>
+      <ul className="turbine__lista">
+        {adicionais.map((a) => (
+          <li key={a.id} className="turbine__item">
+            <span className="turbine__nome">{a.nome}</span>
+            <Preco valor={a.preco} />
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+}
 
 // Navegação entre as partes do cardápio. Gruda no topo enquanto a pessoa rola.
 function AbasCardapio() {
@@ -110,6 +135,11 @@ export default function Cardapio() {
             <h2 id="titulo-classicos" className="titulo-secao">
               Clássicos
             </h2>
+            <p className="destaque-pao">
+              <Faiscas />
+              <span>{pao}</span>
+              <Faiscas lado="direita" />
+            </p>
             <p className="secao__apoio">
               Os de sempre. Do {classicos[0].nome} ao {classicos.at(-1).nome}, é só escolher e tocar em Adicionar.
             </p>
@@ -119,6 +149,7 @@ export default function Cardapio() {
               <LinhaLanche key={item.id} item={item} numero={i + 1} />
             ))}
           </ul>
+          <Turbine />
         </div>
       </section>
 

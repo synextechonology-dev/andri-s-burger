@@ -20,13 +20,15 @@ Cada item diz onde mexer no projeto.
 ## Cardápio
 
 - [ ] **Cheddar Bacon.** No cardápio original, "bacon" aparecia duas vezes. A repetição foi tirada. Confirmar se faltava outro ingrediente no lugar.
-- [ ] **Andri's Burger.** É o único lanche sem "pão" na descrição. Provavelmente só foi esquecido.
 - [ ] **X-Tudão.** Diz "hambúrguer", sem "bovino". Confirmar se é a mesma carne dos outros.
 - [ ] **Batata frita simples.** Qual o peso? A média é 500 g.
 - [ ] **Adicional queijo + bacon (R$ 15).** Vale para as duas porções de batata?
-- [ ] **Refrigerantes.** Quais marcas e sabores tem em lata, 600 ml e 2 litros.
+- [x] **Refrigerantes.** Só Coca-Cola: lata R$ 6, 600 ml R$ 9, 2 litros R$ 17.
+- [x] **Pão.** Todos os lanches no pão brioche de 12 cm (destaque no topo do cardápio; "Pão" saiu da lista de ingredientes).
+- [x] **Adicionais.** Maionese R$ 2, cebola roxa R$ 2, ovo R$ 3, calabresa R$ 6, bacon R$ 7, hambúrguer extra R$ 7. Valem para clássicos e especiais.
+  Onde: `data/cardapio.js` → `adicionais`.
 - [ ] **Água.** Tamanho e se tem com gás.
-- [ ] **Textos novos do site.** "Sem app, sem cadastro", "Tem nome e sobrenome", "Os dois que a casa assina embaixo", "E mais um. São dois." e os três passos do pedido foram escritos para o site. A Andriele pode trocar.
+- [ ] **Textos novos do site.** "Tem nome e sobrenome", "Os dois que a casa assina embaixo", "E mais um. São dois." e os três passos do pedido foram escritos para o site. A Andriele pode trocar.
 - [ ] **Frases de destaque dos especiais.** "O que leva o nome da casa" e "Cheddar cremoso escorrendo" foram escritas para o site. A Andriele pode trocar.
   Onde: `data/cardapio.js` → campo `destaque`.
 

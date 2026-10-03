@@ -23,7 +23,8 @@ Abra http://localhost:3000.
 ## Como o pedido funciona
 
 1. A pessoa toca em **Adicionar** nos itens do cardápio.
-2. Abre a **comanda**, ajusta quantidades e escreve observações por lanche ("sem tomate").
+2. Abre a **comanda**, ajusta quantidades, marca adicionais em cada lanche (bacon, ovo...) e escreve observações ("sem tomate"). Para pedir um com e outro sem adicional, usa "Mais um sem adicionais".
+   A comanda fica guardada no navegador e começa vazia se passar 1 hora sem alteração.
 3. Escolhe **retirar no food truck** (na hora ou com horário marcado) ou **receber em casa** (rua, bairro, referência).
 4. Escolhe Pix, cartão ou dinheiro (com troco).
 5. O site abre o WhatsApp da Andriele com a mensagem pronta. A pessoa só confere e envia.
@@ -40,12 +41,13 @@ Oi, Andriele! Quero fazer um pedido.
 *Complemento / referência:* Casa azul
 
 *Pedido*
-2x X-Bacon | R$ 54,00
+2x X-Bacon + Bacon, Ovo | R$ 74,00
    obs.: sem tomate
+1x X-Bacon | R$ 27,00
 1x Batata frita média | R$ 24,00
-1x Refrigerante lata | R$ 6,00
+1x Coca-Cola lata | R$ 6,00
 
-*Subtotal:* R$ 84,00
+*Subtotal:* R$ 131,00
 *Taxa de entrega:* a combinar
 
 *Pagamento:* Dinheiro (troco para R$ 100)

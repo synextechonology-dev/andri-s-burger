@@ -1714,9 +1714,8 @@ button {
   border: 0;
 }
 .mapa__etiqueta {
-  position: absolute;
-  top: 14px;
-  left: 14px;
+  display: inline-block;
+  margin: 0 0 14px 4px;
   padding: 6px 14px 4px;
   border: 2px solid var(--preto);
   border-radius: var(--raio-pilula);
@@ -1725,8 +1724,7 @@ button {
   font-family: var(--fonte-titulo);
   font-size: 1.3rem;
   letter-spacing: 0.04em;
-  transform: rotate(-3deg);
-  pointer-events: none;
+  transform: rotate(-2deg);
 }
 .mapa__legenda {
   margin-top: 18px;
@@ -1769,8 +1767,138 @@ button {
   100% { transform: scale(1); }
 }
 
+
+/* ---------- Pão brioche (topo do cardápio) ---------- */
+.destaque-pao {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 8px 18px 6px;
+  border: 2px solid var(--amarelo);
+  border-radius: var(--raio-pilula);
+  font-family: var(--fonte-titulo);
+  font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+  line-height: 1.1;
+  letter-spacing: 0.04em;
+  color: var(--amarelo);
+}
+.destaque-pao .faiscas {
+  width: 1em;
+  height: 1em;
+}
+
+/* ---------- Turbine seu lanche (adicionais, só informativo) ---------- */
+.turbine {
+  margin-top: clamp(36px, 5vw, 56px);
+  padding: clamp(22px, 4vw, 40px);
+  border: 2px dashed rgba(246, 185, 14, 0.55);
+  border-radius: 24px;
+  background: var(--gergelim-suave) 0 0 / 44px 52px, var(--carvao);
+}
+.turbine__topo {
+  text-align: center;
+}
+.turbine__titulo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  font-family: var(--fonte-titulo);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 0.95;
+}
+.turbine__titulo .faiscas {
+  width: 0.6em;
+  height: 0.6em;
+}
+.turbine__apoio {
+  margin-top: 8px;
+  color: var(--texto-suave);
+}
+.turbine__lista {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: clamp(20px, 4vw, 48px);
+}
+.turbine__item {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--linha);
+}
+.turbine__nome {
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+.turbine__item .preco__valor {
+  font-size: 2rem;
+}
+
+/* Adicionais dentro da comanda */
+.extras {
+  margin: 12px 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.extras__titulo {
+  padding: 0;
+  margin-bottom: 8px;
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.extras__nota {
+  font-weight: 400;
+  color: rgba(13, 13, 13, 0.65);
+}
+.extras__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.extra {
+  min-height: 38px;
+  padding: 4px 12px;
+  border: 2px solid var(--preto);
+  border-radius: var(--raio-pilula);
+  background: transparent;
+  color: var(--preto);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.1;
+}
+.extra__preco {
+  font-weight: 600;
+  color: var(--marrom);
+}
+.extra.is-marcado {
+  background: var(--preto);
+  color: var(--amarelo);
+}
+.extra.is-marcado::before {
+  content: "✓ ";
+}
+.extra.is-marcado .extra__preco {
+  color: var(--queijo);
+}
+.extras__sem {
+  margin-top: 6px;
+}
+
 /* ---------- Responsivo ---------- */
 @media (max-width: 960px) {
+  .turbine__lista {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
   .passos {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -1866,7 +1994,10 @@ button {
     font-size: 1rem;
   }
   .anatomia__apoio {
-    display: none;
+    margin-top: 6px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    max-width: 34ch;
   }
   .anatomia__compra {
     margin-top: 14px;
@@ -1875,8 +2006,8 @@ button {
     font-size: 2.6rem;
   }
   .anatomia__burger {
-    --abre: clamp(6px, 1.9vh, 18px);
-    --larg: clamp(150px, 46vw, 230px);
+    --abre: clamp(5px, 1.6vh, 16px);
+    --larg: clamp(130px, min(42vw, 26vh), 230px);
   }
   .neon {
     top: 22px;
@@ -1997,6 +2128,13 @@ button {
   }
   .galeria {
     gap: 8px;
+  }
+  .turbine__lista {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .destaque-pao {
+    gap: 6px;
+    padding: 8px 12px 6px;
   }
   .opcoes--tres {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
