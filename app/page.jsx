@@ -13,7 +13,7 @@ import Comanda, { BarraComanda } from "@/components/Comanda";
 // Ordem dos fundos (alterna as cores do manual):
 // preto (abertura) > amarelo (letreiro) > carvão (camada por camada)
 // > guardanapo (pedir é assim) > preto (clássicos) > carvão (especiais)
-// > guardanapo (porções) > amarelo (bebidas) > preto (food truck)
+// > guardanapo (porções) > amarelo (bebidas) > preto (a Andriele)
 // > guardanapo (onde e quando) > amarelo (rodapé)
 export default function Home() {
   return (

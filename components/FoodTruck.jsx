@@ -12,7 +12,7 @@ const foto = {
 
 export default function FoodTruck() {
   return (
-    <section id="food-truck" className="secao tema-preto" aria-labelledby="titulo-truck">
+    <section id="andriele" className="secao tema-preto" aria-labelledby="titulo-truck">
       <div className="secao__interno truck-sobre">
         <div className="truck-sobre__texto">
           <p className="assinatura">

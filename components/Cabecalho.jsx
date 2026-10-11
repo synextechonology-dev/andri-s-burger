@@ -6,7 +6,7 @@ import { useComanda } from "./ComandaContext";
 const links = [
   { href: "#cardapio", rotulo: "Cardápio" },
   { href: "#como-pedir", rotulo: "Como pedir" },
-  { href: "#food-truck", rotulo: "O food truck" },
+  { href: "#andriele", rotulo: "A Andriele" },
   { href: "#onde", rotulo: "Onde e quando" },
 ];
 
