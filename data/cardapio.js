@@ -64,7 +64,7 @@ export const itens = [
     ingredientes: ["hambúrguer bovino", "queijo", "presunto", "bacon", "milho", "pepino", "tomate", "maionese da casa"],
     preco: 27,
     foto: "/fotos/lanches/x-bacon.jpg",
-    temFoto: false,
+    temFoto: true,
   },
   {
     id: "x-alcatra",
