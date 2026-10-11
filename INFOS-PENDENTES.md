@@ -44,7 +44,7 @@ Formato: JPG, lado maior com 1600 px no máximo, até ~300 KB cada. Depois de co
 - [ ] x-frango.jpg
 - [x] x-calabresa.jpg (CONFIRMAR: a calabresa não aparece na foto)
 - [x] x-bacon.jpg (CONFIRMAR: foto mostra alface e não mostra milho, tomate, pepino e presunto; confirmar se a foto é da própria Andriele)
-- [ ] x-alcatra.jpg
+- [x] x-alcatra.jpg (tirada de um story, legenda removida no recorte; resolução baixa, 382 px)
 - [ ] x-tudao.jpg
 - [x] andris-burger.jpg (destaque, formato mais largo). Recortada em 5:4 a partir da foto vertical.
 - [ ] cheddar-bacon.jpg (destaque, formato mais largo)

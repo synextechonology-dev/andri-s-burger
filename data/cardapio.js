@@ -73,7 +73,7 @@ export const itens = [
     ingredientes: ["carne de alcatra", "queijo", "presunto", "alface", "tomate", "pepino", "cebola roxa", "maionese da casa"],
     preco: 30,
     foto: "/fotos/lanches/x-alcatra.jpg",
-    temFoto: false,
+    temFoto: true,
   },
   {
     id: "x-tudao",
