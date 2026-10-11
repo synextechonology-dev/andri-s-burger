@@ -42,7 +42,7 @@ Formato: JPG, lado maior com 1600 px no máximo, até ~300 KB cada. Depois de co
 - [ ] x-salada.jpg
 - [ ] x-egg.jpg
 - [ ] x-frango.jpg
-- [ ] x-calabresa.jpg
+- [x] x-calabresa.jpg (CONFIRMAR: a calabresa não aparece na foto)
 - [ ] x-bacon.jpg
 - [ ] x-alcatra.jpg
 - [ ] x-tudao.jpg

@@ -58,6 +58,7 @@ function LinhaLanche({ item, numero }) {
         alt={`Foto do ${item.nome}`}
         proporcao="1 / 1"
         className="lanche__foto"
+        sizes="(max-width: 560px) 84px, 116px"
         reserva={<span className="lanche__numero">{String(numero).padStart(2, "0")}</span>}
       />
       <div className="lanche__corpo">
