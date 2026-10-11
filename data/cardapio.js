@@ -83,7 +83,7 @@ export const itens = [
     ingredientes: ["hambúrguer", "queijo", "presunto", "alface", "tomate", "milho", "pepino", "ovo", "bacon", "calabresa", "maionese especial"],
     preco: 40,
     foto: "/fotos/lanches/x-tudao.jpg",
-    temFoto: false,
+    temFoto: true,
   },
 
   // Especiais da casa
