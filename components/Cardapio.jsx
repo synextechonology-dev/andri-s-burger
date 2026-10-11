@@ -81,6 +81,7 @@ function Especial({ item }) {
         alt={`Foto do ${item.nome}`}
         proporcao="5 / 4"
         className="especial__foto"
+        sizes="(max-width: 820px) 100vw, 580px"
         reserva={<BurgerMontado camadas={item.camadas?.map((c) => c.tipo)} />}
       />
       <div className="especial__selo" aria-hidden="true">

@@ -108,7 +108,7 @@ export const itens = [
     ],
     preco: 35,
     foto: "/fotos/lanches/andris-burger.jpg",
-    temFoto: false,
+    temFoto: true,
   },
   {
     id: "cheddar-bacon",

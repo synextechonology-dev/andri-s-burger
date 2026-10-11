@@ -46,7 +46,7 @@ Formato: JPG, lado maior com 1600 px no máximo, até ~300 KB cada. Depois de co
 - [ ] x-bacon.jpg
 - [ ] x-alcatra.jpg
 - [ ] x-tudao.jpg
-- [ ] andris-burger.jpg (destaque, formato mais largo)
+- [x] andris-burger.jpg (destaque, formato mais largo). Recortada em 5:4 a partir da foto vertical.
 - [ ] cheddar-bacon.jpg (destaque, formato mais largo)
 - [ ] batata-queijo-bacon.jpg (foto da seção de porções, vertical)
 
