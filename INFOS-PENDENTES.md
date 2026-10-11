@@ -39,7 +39,7 @@ Formato: JPG, lado maior com 1600 px no máximo, até ~300 KB cada. Depois de co
 **Lanches** (`public/fotos/lanches/`), de preferência todas com o mesmo fundo e o mesmo ângulo, porque aparecem lado a lado:
 
 - [ ] x-burger.jpg
-- [ ] x-salada.jpg
+- [x] x-salada.jpg
 - [ ] x-egg.jpg
 - [ ] x-frango.jpg
 - [x] x-calabresa.jpg (CONFIRMAR: a calabresa não aparece na foto)

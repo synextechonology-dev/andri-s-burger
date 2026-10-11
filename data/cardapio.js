@@ -28,7 +28,7 @@ export const itens = [
     ingredientes: ["hambúrguer bovino", "queijo", "presunto", "alface", "tomate", "pepino", "maionese da casa"],
     preco: 20,
     foto: "/fotos/lanches/x-salada.jpg",
-    temFoto: false,
+    temFoto: true,
   },
   {
     id: "x-egg",
