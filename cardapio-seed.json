@@ -1,0 +1,640 @@
+{
+  "loja": {
+    "nome": "Andri's Burger",
+    "whatsapp": "554788438232",
+    "endereco": "Rua Flamboyant, 932, Vila Monte Alegre, CEP 88348-837",
+    "cidade": "Camboriú, SC",
+    "horarios": [
+      {
+        "dia": "Domingo",
+        "abre": "21:30",
+        "fecha": "23:30"
+      },
+      {
+        "dia": "Segunda",
+        "abre": null,
+        "fecha": null
+      },
+      {
+        "dia": "Terça",
+        "abre": "19:30",
+        "fecha": "23:00"
+      },
+      {
+        "dia": "Quarta",
+        "abre": "19:30",
+        "fecha": "23:00"
+      },
+      {
+        "dia": "Quinta",
+        "abre": "19:30",
+        "fecha": "23:00"
+      },
+      {
+        "dia": "Sexta",
+        "abre": "19:30",
+        "fecha": "23:30"
+      },
+      {
+        "dia": "Sábado",
+        "abre": "19:30",
+        "fecha": "23:00"
+      }
+    ],
+    "entrega": true,
+    "retirada": true,
+    "pagamentos": [
+      "Pix",
+      "Cartão",
+      "Dinheiro"
+    ]
+  },
+  "categorias": [
+    {
+      "nome": "Clássicos",
+      "ordem": 1
+    },
+    {
+      "nome": "Especiais da casa",
+      "ordem": 2
+    },
+    {
+      "nome": "Porções",
+      "ordem": 3
+    },
+    {
+      "nome": "Bebidas",
+      "ordem": 4
+    }
+  ],
+  "produtos": [
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Burger",
+      "descricao": "hambúrguer bovino, queijo muçarela, presunto e maionese da casa.",
+      "foto": null,
+      "preco": 17,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Salada",
+      "descricao": "hambúrguer bovino, queijo, presunto, alface, tomate, pepino e maionese da casa.",
+      "foto": "/fotos/lanches/x-salada.jpg",
+      "preco": 20,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Egg",
+      "descricao": "hambúrguer bovino, ovo, queijo, presunto, tomate, alface, pepino, milho e maionese da casa.",
+      "foto": null,
+      "preco": 23,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Frango",
+      "descricao": "frango, queijo, presunto, alface, tomate, pepino, milho e maionese da casa.",
+      "foto": null,
+      "preco": 25,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Calabresa",
+      "descricao": "hambúrguer bovino, queijo, presunto, calabresa, milho, pepino, alface, tomate e maionese da casa.",
+      "foto": "/fotos/lanches/x-calabresa.jpg",
+      "preco": 26,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Bacon",
+      "descricao": "hambúrguer bovino, queijo, presunto, bacon, milho, pepino, tomate e maionese da casa.",
+      "foto": "/fotos/lanches/x-bacon.jpg",
+      "preco": 27,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Alcatra",
+      "descricao": "carne de alcatra, queijo, presunto, alface, tomate, pepino, cebola roxa e maionese da casa.",
+      "foto": "/fotos/lanches/x-alcatra.jpg",
+      "preco": 30,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Clássicos",
+      "nome": "X-Tudão",
+      "descricao": "hambúrguer, queijo, presunto, alface, tomate, milho, pepino, ovo, bacon, calabresa e maionese especial.",
+      "foto": "/fotos/lanches/x-tudao.jpg",
+      "preco": 40,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Especiais da casa",
+      "nome": "Andri's Burger",
+      "descricao": "2 hambúrgueres bovinos, cheddar, bacon, alface, cebola e maionese especial.",
+      "foto": "/fotos/lanches/andris-burger.jpg",
+      "preco": 35,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Especiais da casa",
+      "nome": "Cheddar Bacon",
+      "descricao": "hambúrguer bovino, cheddar cremoso, bacon e alface.",
+      "foto": null,
+      "preco": 25,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Adicionais",
+          "min": 0,
+          "max": 6,
+          "opcoes": [
+            {
+              "nome": "Maionese",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Cebola roxa",
+              "preco_extra": 2
+            },
+            {
+              "nome": "Ovo",
+              "preco_extra": 3
+            },
+            {
+              "nome": "Calabresa",
+              "preco_extra": 6
+            },
+            {
+              "nome": "Bacon",
+              "preco_extra": 7
+            },
+            {
+              "nome": "Hambúrguer extra",
+              "preco_extra": 7
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Porções",
+      "nome": "Batata frita simples",
+      "descricao": null,
+      "foto": null,
+      "preco": 12,
+      "tamanhos": [],
+      "grupos_adicionais": [],
+      "disponivel": true
+    },
+    {
+      "categoria": "Porções",
+      "nome": "Batata frita média",
+      "descricao": "500 g",
+      "foto": null,
+      "preco": 24,
+      "tamanhos": [],
+      "grupos_adicionais": [],
+      "disponivel": true
+    },
+    {
+      "categoria": "Porções",
+      "nome": "Adicional queijo + bacon",
+      "descricao": "Para a porção de batata",
+      "foto": null,
+      "preco": 15,
+      "tamanhos": [],
+      "grupos_adicionais": [],
+      "disponivel": true
+    },
+    {
+      "categoria": "Bebidas",
+      "nome": "Refrigerante lata",
+      "descricao": null,
+      "foto": null,
+      "preco": 6,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Sabor",
+          "min": 1,
+          "max": 1,
+          "opcoes": [
+            {
+              "nome": "Coca-Cola",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Guaraná",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Sprite",
+              "preco_extra": 0
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Bebidas",
+      "nome": "Refrigerante 600 ml",
+      "descricao": null,
+      "foto": null,
+      "preco": 9,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Sabor",
+          "min": 1,
+          "max": 1,
+          "opcoes": [
+            {
+              "nome": "Coca-Cola",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Guaraná",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Sprite",
+              "preco_extra": 0
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Bebidas",
+      "nome": "Refrigerante 2 litros",
+      "descricao": null,
+      "foto": null,
+      "preco": 17,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Sabor",
+          "min": 1,
+          "max": 1,
+          "opcoes": [
+            {
+              "nome": "Coca-Cola",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Guaraná",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Sprite",
+              "preco_extra": 0
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    },
+    {
+      "categoria": "Bebidas",
+      "nome": "Água",
+      "descricao": null,
+      "foto": null,
+      "preco": 4,
+      "tamanhos": [],
+      "grupos_adicionais": [
+        {
+          "nome": "Tipo",
+          "min": 1,
+          "max": 1,
+          "opcoes": [
+            {
+              "nome": "Sem gás",
+              "preco_extra": 0
+            },
+            {
+              "nome": "Com gás",
+              "preco_extra": 0
+            }
+          ]
+        }
+      ],
+      "disponivel": true
+    }
+  ],
+  "combos": [],
+  "bairros": []
+}
