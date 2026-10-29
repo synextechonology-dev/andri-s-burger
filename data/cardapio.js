@@ -120,7 +120,7 @@ export const itens = [
     camadas: [{ tipo: "pao-topo" }, { tipo: "alface" }, { tipo: "bacon" }, { tipo: "cheddar" }, { tipo: "hamburguer" }, { tipo: "pao-base" }],
     preco: 25,
     foto: "/fotos/lanches/cheddar-bacon.jpg",
-    temFoto: false,
+    temFoto: true,
   },
 
   // Porções
